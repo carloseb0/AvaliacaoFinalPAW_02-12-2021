@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUsuarioTitle}">
+            <h:form id="UsuarioEditForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
+                        <p:outputLabel value="Cod" for="usrCodigo" />
+                        <p:inputText id="usrCodigo" value="#{usuarioController.selected.usrCodigo}" title="#{bundle.EditUsuarioTitle_usrCodigo}" required="true" disabled="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usrCodigo}"/>
+                        
+                        <p:outputLabel value="Data Cadastro" for="usrDatacadastro" />
+                        <p:calendar id="usrDatacadastro" pattern="MM/dd/yyyy" value="#{usuarioController.selected.usrDatacadastro}" disabled="true" title="#{bundle.EditUsuarioTitle_usrDatacadastro}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usrDatacadastro}" showOn="button"/>
+                        
+                        <p:outputLabel value="Nome" for="usrNome" />
+                        <p:inputText id="usrNome" value="#{usuarioController.selected.usrNome}" title="#{bundle.EditUsuarioTitle_usrNome}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usrNome}"/>
+                        
+                        <p:outputLabel value="Login" for="usrLogin" />
+                        <p:inputText id="usrLogin" value="#{usuarioController.selected.usrLogin}" title="#{bundle.EditUsuarioTitle_usrLogin}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usrLogin}"/>
+                        
+                        <p:outputLabel value="Senha" for="usrSenha" />
+                        <p:inputText id="usrSenha" value="#{usuarioController.selected.usrSenha}" title="#{bundle.EditUsuarioTitle_usrSenha}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usrSenha}"/>
+                        
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usrBloqueado}" for="usrBloqueado" />
+                        <p:selectBooleanCheckbox id="usrBloqueado" value="#{usuarioController.selected.usrBloqueado}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usrBloqueado}"/>
+                        
+                        <p:outputLabel value="E-mail" for="usrEmail" />
+                        <p:inputText id="usrEmail" value="#{usuarioController.selected.usrEmail}" title="#{bundle.EditUsuarioTitle_usrEmail}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usrEmail}"/>
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuarioEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UsuarioEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

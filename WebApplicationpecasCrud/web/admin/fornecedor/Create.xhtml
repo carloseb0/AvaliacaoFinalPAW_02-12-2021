@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FornecedorCreateDlg" widgetVar="FornecedorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateFornecedorTitle}">
+            <h:form id="FornecedorCreateForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.selected != null}">
+                        
+                        <p:outputLabel value="Nome" for="forNome" />
+                        <p:inputText id="forNome" value="#{fornecedorController.selected.forNome}" title="#{bundle.CreateFornecedorTitle_forNome}" required="true" requiredMessage="#{bundle.CreateFornecedorRequiredMessage_forNome}"/>
+                        
+                        <p:outputLabel value="CNPJ" for="forCnpj" />
+                        <p:inputText id="forCnpj" value="#{fornecedorController.selected.forCnpj}" title="#{bundle.CreateFornecedorTitle_forCnpj}" required="true"  requiredMessage="#{bundle.CreateFornecedorRequiredMessage_forCnpj}"/>
+                        
+                        <p:outputLabel value="Cidade" for="forCidade" />
+                        <p:inputText id="forCidade" value="#{fornecedorController.selected.forCidade}" title="#{bundle.CreateFornecedorTitle_forCidade}" required="true" requiredMessage="#{bundle.CreateFornecedorRequiredMessage_forCidade}"/>
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{fornecedorController.create}" value="#{bundle.Save}" update="display,:FornecedorListForm:datalist,:growl" oncomplete="handleSubmit(args,'FornecedorCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="FornecedorCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

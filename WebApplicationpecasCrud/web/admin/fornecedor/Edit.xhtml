@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FornecedorEditDlg" widgetVar="FornecedorEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditFornecedorTitle}">
+            <h:form id="FornecedorEditForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" rendered="#{fornecedorController.selected != null}">
+                        <p:outputLabel value="Cod" for="forCodigo" />
+                        <p:inputText id="forCodigo" value="#{fornecedorController.selected.forCodigo}" title="#{bundle.EditFornecedorTitle_forCodigo}" required="true" disabled="true" requiredMessage="#{bundle.EditFornecedorRequiredMessage_forCodigo}"/>
+                        
+                        <p:outputLabel value="Nome" for="forNome" />
+                        <p:inputText id="forNome" value="#{fornecedorController.selected.forNome}" title="#{bundle.EditFornecedorTitle_forNome}" required="true" requiredMessage="#{bundle.EditFornecedorRequiredMessage_forNome}"/>
+                        
+                        <p:outputLabel value="CNPJ" for="forCnpj" />
+                        <p:inputText id="forCnpj" value="#{fornecedorController.selected.forCnpj}" title="#{bundle.EditFornecedorTitle_forCnpj}" required="true" requiredMessage="#{bundle.EditFornecedorRequiredMessage_forCnpj}"/>
+                        
+                        <p:outputLabel value="Cidade" for="forCidade" />
+                        <p:inputText id="forCidade" value="#{fornecedorController.selected.forCidade}" title="#{bundle.EditFornecedorTitle_forCidade}" required="true" requiredMessage="#{bundle.EditFornecedorRequiredMessage_forCidade}"/>
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{fornecedorController.update}" value="#{bundle.Save}" update="display,:FornecedorListForm:datalist,:growl" oncomplete="handleSubmit(args, 'FornecedorEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="FornecedorEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

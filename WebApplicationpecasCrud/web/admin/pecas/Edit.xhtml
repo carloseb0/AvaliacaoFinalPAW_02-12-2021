@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PecasEditDlg" widgetVar="PecasEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPecasTitle}">
+            <h:form id="PecasEditForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" rendered="#{pecasController.selected != null}">
+                        <p:outputLabel value="Cod" for="pecCodigo" />
+                        <p:inputText id="pecCodigo" value="#{pecasController.selected.pecCodigo}" title="#{bundle.EditPecasTitle_pecCodigo}" required="true" disabled="true" requiredMessage="#{bundle.EditPecasRequiredMessage_pecCodigo}"/>
+                        
+                        <p:outputLabel value="Nome" for="pecNome" />
+                        <p:inputText id="pecNome" value="#{pecasController.selected.pecNome}" title="#{bundle.EditPecasTitle_pecNome}" required="true" requiredMessage="#{bundle.EditPecasRequiredMessage_pecNome}"/>
+                        
+                        <p:outputLabel value="Valor Unitário" for="pecValorunitario" />
+                        <p:inputText id="pecValorunitario" value="#{pecasController.selected.pecValorunitario}" title="#{bundle.EditPecasTitle_pecValorunitario}" required="true" requiredMessage="#{bundle.EditPecasRequiredMessage_pecValorunitario}"/>
+                        
+                        <p:outputLabel value="Ativo" for="pecAtivo" />
+                        <p:selectBooleanCheckbox id="pecAtivo" value="#{pecasController.selected.pecAtivo}" required="true" requiredMessage="#{bundle.EditPecasRequiredMessage_pecAtivo}"/>
+                        
+                        <p:outputLabel value="Categoria" for="catCodigo" />
+                        <p:selectOneMenu id="catCodigo" value="#{pecasController.selected.catCodigo}" required="true" requiredMessage="#{bundle.EditPecasRequiredMessage_catCodigo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
+                                           var="catCodigoItem"
+                                           itemValue="#{catCodigoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Fornecedor" for="forCodigo" />
+                        <p:selectOneMenu id="forCodigo" value="#{pecasController.selected.forCodigo}" required="true" requiredMessage="#{bundle.EditPecasRequiredMessage_forCodigo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{fornecedorController.itemsAvailableSelectOne}"
+                                           var="forCodigoItem"
+                                           itemValue="#{forCodigoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Usuário" for="usrCodigo" />
+                        <p:selectOneMenu id="usrCodigo" value="#{pecasController.selected.usrCodigo}" required="true" disabled="true" requiredMessage="#{bundle.EditPecasRequiredMessage_usrCodigo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="usrCodigoItem"
+                                           itemValue="#{usrCodigoItem}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{pecasController.update}" value="#{bundle.Save}" update="display,:PecasListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PecasEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PecasEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

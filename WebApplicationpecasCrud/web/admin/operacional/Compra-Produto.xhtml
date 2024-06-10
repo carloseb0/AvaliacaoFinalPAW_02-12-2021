@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Compra"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form enctype="multipart/form-data" acceptcharset="UTF-8" id="frmOperCompra">
+                <f:event listener="#{compraController.prepareCreate}" type="preRenderView" /> 
+                <f:event listener="#{compraprodutoController.prepareCreate}" type="preRenderView" /> 
+                <p:growl id="growl" showDetail="true" />
+
+                <p:tabView id="tbvcompra">
+                    <p:tab title="Incluir" id="tabIncluir">
+                        <p:fieldset legend="Compra" style="margin-bottom:20px">
+                            <p:outputPanel id="oppCompra">
+                                <h:panelGrid columns="2" > 
+                                    <p:outputLabel value="#{bundle.CreateCompraLabel_usrCodigo}" for="usrCodigo"  />
+                                    <p:selectOneMenu id="usrCodigo" value="#{compraController.selected.usrCodigo}"
+                                                     disabled="#{compraController.compraCodigo != null}"
+                                                     required="true" 
+                                                     requiredMessage="#{bundle.EditCompraRequiredMessage_usrCodigo}">
+                                        <f:selectItem itemValue="" itemLabel="Selecione um cliente" noSelectionOption=""/>
+                                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                                       var="usrCodigoItem"
+                                                       itemValue="#{usrCodigoItem}"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+
+                                <p:commandButton actionListener="#{compraController.create()}" value="Criar Compra" 
+                                                 disabled="#{compraController.compraCodigo != null}"
+                                                 update=":frmOperCompra:growl,oppCompra,oppCompraProduto" 
+                                                 partialSubmit="true" process="oppCompra"/>
+
+                                <p:commandButton actionListener="#{compraController.prepareCreateGeral()}" value="Novo" 
+                                                 disabled="#{compraController.compraCodigo == null}"
+                                                 update=":frmOperCompra:tbvcompra:datalist,:frmOperCompra:growl,oppCompra,oppCompraProduto"
+                                                 partialSubmit="true" process="oppCompra,:frmOperCompra:tbvcompra:datalist"/>
+                            </p:outputPanel>
+                        </p:fieldset>
+
+                        <p:fieldset legend="Item Compra" style="margin-bottom:20px">
+                            <p:outputPanel id="oppCompraProduto">
+                                <h:panelGrid columns="4" > 
+                                    <p:outputLabel value="ID Compra" />
+                                    <p:inputText value="#{compraController.compraCodigo}" disabled="true"/> 
+
+                                    <p:outputLabel value="Cliente" />
+                                    <p:inputText value="#{compraController.usuarioNome}" disabled="true" />
+
+                                    <p:outputLabel value="#{bundle.CreateCompraprodutoLabel_pecCodigo}" for="pecCodigo" />
+                                        <p:selectOneMenu id="pecCodigo" value="#{compraprodutoController.selected.pecCodigo}" required="true"
+                                                        disabled="#{compraController.compraCodigo == null}" requiredMessage="#{bundle.EditCompraprodutoRequiredMessage_pecCodigo}">
+                                             <f:selectItems value="#{pecasController.itemsAvailableSelectOne}"
+                                                            var="pecCodigoItem"
+                                                            itemValue="#{pecCodigoItem}"/>
+                                         </p:selectOneMenu>
+
+                                    <p:outputLabel value="#{bundle.CreateCompraprodutoLabel_cprQuantidade}" for="cprQuantidade" />
+                                    <p:inputText id="cprQuantidade" value="#{compraprodutoController.selected.cprQuantidade}" 
+                                                 title="#{bundle.CreateCompraprodutoTitle_cprQuantidade}" required="true"
+                                                 disabled="#{compraController.compraCodigo == null}"
+                                                 requiredMessage="#{bundle.CreateCompraprodutoRequiredMessage_cprQuantidade}"/>
+                                </h:panelGrid>   
+                                <p:commandButton action="#{compraprodutoController.createCompraProduto(compraController.compraCodigo.intValue())}" 
+                                                 value="Incluir Produto" disabled="#{compraController.compraCodigo == null}"
+                                                 update=":frmOperCompra:tbvcompra:datalist,:frmOperCompra:growl,oppCompraProduto" 
+                                                 partialSubmit="true" process="oppCompraProduto,:frmOperCompra:tbvcompra:datalist"/>
+                            </p:outputPanel>
+                        </p:fieldset>
+
+                        <p:panel header="Produtos Incluídos">
+                            <p:dataTable id="datalist" 
+                                         value="#{compraprodutoController.getItemsByCompra(compraController.compraCodigo.intValue())}" 
+                                         var="item" paginator="true"
+                                         rows="10" rowsPerPageTemplate="10,20,30,40,50" >
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="ID"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.cprCodigo}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Produto"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.pecCodigo.pecNome}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Val.Unit."/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.cprValorunitario}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Quant."/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.cprQuantidade}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Val.Total"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.cprValortotal}"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="ID Compra"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.cmpCodigo}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Histórico">
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <h:outputText value="Será utilizado para consultar histórico.." />
+                        </h:panelGrid>
+                    </p:tab>
+                </p:tabView> 
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

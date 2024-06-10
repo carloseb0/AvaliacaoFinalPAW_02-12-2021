@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CompraprodutoCreateDlg" widgetVar="CompraprodutoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCompraprodutoTitle}">
+            <h:form id="CompraprodutoCreateForm">
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" rendered="#{compraprodutoController.selected != null}">              
+                        <p:outputLabel value="#{bundle.CreateCompraprodutoLabel_cprValorunitario}" for="cprValorunitario" />
+                        <p:inputText id="cprValorunitario" value="#{compraprodutoController.selected.cprValorunitario}" title="#{bundle.CreateCompraprodutoTitle_cprValorunitario}" required="true" requiredMessage="#{bundle.CreateCompraprodutoRequiredMessage_cprValorunitario}"/>
+                        
+                        <p:outputLabel value="#{bundle.CreateCompraprodutoLabel_cprQuantidade}" for="cprQuantidade" />
+                        <p:inputText id="cprQuantidade" value="#{compraprodutoController.selected.cprQuantidade}" title="#{bundle.CreateCompraprodutoTitle_cprQuantidade}" required="true" requiredMessage="#{bundle.CreateCompraprodutoRequiredMessage_cprQuantidade}"/>
+                        
+                        <p:outputLabel value="#{bundle.CreateCompraprodutoLabel_cprValortotal}" for="cprValortotal" />
+                        <p:inputText id="cprValortotal" value="#{compraprodutoController.selected.cprValortotal}" title="#{bundle.CreateCompraprodutoTitle_cprValortotal}" required="true" requiredMessage="#{bundle.CreateCompraprodutoRequiredMessage_cprValortotal}"/>
+                        
+                        <p:outputLabel value="#{bundle.CreateCompraprodutoLabel_cmpCodigo}" for="cmpCodigo" />
+                        <p:selectOneMenu id="cmpCodigo" value="#{compraprodutoController.selected.cmpCodigo}" required="true" requiredMessage="#{bundle.EditCompraprodutoRequiredMessage_cmpCodigo}">
+                            <f:selectItems value="#{compraController.itemsAvailableSelectOne}"
+                                           var="cmpCodigoItem"
+                                           itemValue="#{cmpCodigoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateCompraprodutoLabel_pecCodigo}" for="pecCodigo" />
+                        <p:selectOneMenu id="pecCodigo" value="#{compraprodutoController.selected.pecCodigo}" required="true" requiredMessage="#{bundle.EditCompraprodutoRequiredMessage_pecCodigo}">
+                            <f:selectItems value="#{pecasController.itemsAvailableSelectOne}"
+                                           var="pecCodigoItem"
+                                           itemValue="#{pecCodigoItem}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{compraprodutoController.create}" value="#{bundle.Save}" update="display,:CompraprodutoListForm:datalist,:growl" oncomplete="handleSubmit(args,'CompraprodutoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="CompraprodutoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
