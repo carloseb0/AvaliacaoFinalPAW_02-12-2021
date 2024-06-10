@@ -1,6 +1,6 @@
 Projeto final desenvolvido para a máteria Programação de Aplicações Web 2021 - 2º PL
 
-Tecnologias Utilizadas: Java, framework Java Server Faces, Primefaces, Java Persistence API.
+Tecnologias Utilizadas: Java, JSF, Primefaces, JPA.
 
  Requisitos para desenvolvimento do Trabalho:
 - Utilizar a mesma arquitetura desenvolvida em sala de aula (automatizada ou totalmente manual)
